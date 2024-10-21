@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/movies")
 public class MovieController {
@@ -17,8 +19,42 @@ public class MovieController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Movie addMovie(@RequestBody Movie movie) {
-        return movieService.addMovie(movie);
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+
+        var savedMovie = movieService.addMovie(movie);
+        return ResponseEntity.status(HttpStatus.CREATED).body(movieService.addMovie(savedMovie));
+
     }
+
+    @PostMapping("/add-list")
+    public ResponseEntity<List<Movie>> addMovieList(@RequestBody List<Movie> movieList) {
+
+        if (movieList == null || movieList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        var list = movieService.addMovieList(movieList);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(list);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Movie>> getAllMovies() {
+
+        var list = movieService.getAllMovies();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable("id") Long id) {
+        var movie = movieService.getMovieById(id);
+
+        if (movie.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(movie.get());
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
 }
