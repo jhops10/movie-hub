@@ -1,7 +1,9 @@
 package com.jhops10.movie_hub.service;
 
 import com.jhops10.movie_hub.entity.Movie;
+import com.jhops10.movie_hub.exceptions.MovieNotFoundException;
 import com.jhops10.movie_hub.repository.MovieRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +32,40 @@ public class MovieService {
     }
 
     public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+        Sort sortedList = Sort.by("id").ascending();
+        return movieRepository.findAll(sortedList);
+    }
+
+    public Movie updateMovieById(Long id, Movie updateMovie) {
+        var foundMovie = movieRepository.findById(id);
+
+        if (foundMovie.isPresent()) {
+            var movie = foundMovie.get();
+
+            if (updateMovie.getTitle() != null) {
+                movie.setTitle(updateMovie.getTitle());
+            }
+
+            if (updateMovie.getShortDescription() != null) {
+                movie.setShortDescription(updateMovie.getShortDescription());
+            }
+
+            if (updateMovie.getReleaseYear() != null) {
+                movie.setReleaseYear(updateMovie.getReleaseYear());
+            }
+
+            if (updateMovie.getGender() != null) {
+                movie.setGender(updateMovie.getGender());
+            }
+
+            if (updateMovie.getDirector() != null) {
+                movie.setDirector(updateMovie.getDirector());
+            }
+
+            return movieRepository.save(movie);
+        }
+
+        throw new MovieNotFoundException("Movie with id " + id + " not found.");
     }
 
     public void deleteMovieById(Long id) {

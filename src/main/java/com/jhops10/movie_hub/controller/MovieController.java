@@ -57,6 +57,20 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Movie> updateMovieById(@PathVariable("id") Long id,
+                                                 @RequestBody Movie updateMovie) {
+
+        var movie = movieService.getMovieById(id);
+
+        if (movie.isPresent()) {
+            var updatedMovie = movieService.updateMovieById(id, updateMovie);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedMovie);
+        }
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovieById(@PathVariable("id") Long id) {
         var movie = movieService.getMovieById(id);
@@ -68,5 +82,7 @@ public class MovieController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+
 
 }
