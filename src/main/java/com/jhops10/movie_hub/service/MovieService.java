@@ -33,6 +33,11 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public void deleteMovieById(Long id) {
+        movieRepository.deleteById(id);
+    }
+
+
 
 
 }
