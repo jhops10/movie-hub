@@ -87,7 +87,7 @@ public class MovieController {
 
 
     @GetMapping("/gender/{gender}")
-    public ResponseEntity<List<Movie>> findMoviesByGender(@PathVariable String gender) {
+    public ResponseEntity<List<Movie>> findMoviesByGender(@PathVariable("gender") String gender) {
        List<Movie> movies = movieService.findMoviesByGender(gender);
 
        if (movies.isEmpty()) {
@@ -98,5 +98,15 @@ public class MovieController {
     }
 
 
+    @GetMapping("/year/{releaseYear}")
+    public ResponseEntity<List<Movie>> findMoviesByReleaseYear(@PathVariable("releaseYear") Integer releaseYear) {
+        List<Movie> movies = movieService.findMoviesByReleaseYear(releaseYear);
+
+        if (movies.isEmpty()) {
+            throw new MovieNotFoundException("No results found the release year: " + releaseYear);
+        }
+
+        return ResponseEntity.ok(movies);
+    }
 
 }
