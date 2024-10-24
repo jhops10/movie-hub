@@ -77,5 +77,9 @@ public class MovieService {
         return movieRepository.findByGenderIgnoreCase(gender);
     }
 
+    public List<Movie> findMoviesByReleaseYear(Integer releaseYear) {
+        return movieRepository.findByReleaseYear(releaseYear);
+    }
+
 
 }
