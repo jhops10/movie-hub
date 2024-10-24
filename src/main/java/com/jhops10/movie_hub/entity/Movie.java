@@ -1,5 +1,6 @@
 package com.jhops10.movie_hub.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,12 +9,22 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "The unique identifier of the movie", example = "1")
     private Long id;
 
+    @Schema(description = "The title of the movie", example = "Inception")
     private String title;
+
+    @Schema(description = "A short description of the movie", example = "A mind-bending thriller")
     private String shortDescription;
+
+    @Schema(description = "The release year of the movie", example = "2010")
     private Integer releaseYear;
+
+    @Schema(description = "The genre of the movie", example = "Action")
     private String gender;
+
+    @Schema(description = "The director of the movie", example = "Christopher Nolan")
     private String director;
 
     public Movie() {
