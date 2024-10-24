@@ -68,11 +68,14 @@ public class MovieService {
         throw new MovieNotFoundException("Movie with id " + id + " not found.");
     }
 
+
     public void deleteMovieById(Long id) {
         movieRepository.deleteById(id);
     }
 
-
+    public List<Movie> findMoviesByGender(String gender) {
+        return movieRepository.findByGenderIgnoreCase(gender);
+    }
 
 
 }

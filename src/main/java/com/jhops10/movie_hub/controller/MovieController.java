@@ -1,6 +1,7 @@
 package com.jhops10.movie_hub.controller;
 
 import com.jhops10.movie_hub.entity.Movie;
+import com.jhops10.movie_hub.exceptions.MovieNotFoundException;
 import com.jhops10.movie_hub.service.MovieService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.OK).body(movie.get());
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new MovieNotFoundException("No results found with id: " + id);
     }
 
     @PutMapping("/{id}")
@@ -68,7 +69,7 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.OK).body(updatedMovie);
         }
 
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      throw new MovieNotFoundException("No results found with id: " + id);
     }
 
     @DeleteMapping("/{id}")
@@ -80,7 +81,20 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        throw new MovieNotFoundException("No results found with id: " + id);
+
+    }
+
+
+    @GetMapping("/gender/{gender}")
+    public ResponseEntity<List<Movie>> findMoviesByGender(@PathVariable String gender) {
+       List<Movie> movies = movieService.findMoviesByGender(gender);
+
+       if (movies.isEmpty()) {
+           throw new MovieNotFoundException("No results found for the gender: " + gender);
+       }
+
+       return ResponseEntity.ok(movies);
     }
 
 
