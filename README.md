@@ -2,7 +2,7 @@
 
 ## Descrição
 
-**Movie Hub API** é uma API RESTful que permite a gestão de um catálogo de filmes. Os usuários podem adicionar, atualizar, buscar e excluir filmes, além de filtrar filmes por gênero e data de lançamento.
+**Movie Hub API** é uma API que permite a gestão de um catálogo de filmes. Os usuários podem adicionar, atualizar, buscar e excluir filmes, além de filtrar filmes por gênero e data de lançamento.
 
 ## Tecnologias Utilizadas
 
